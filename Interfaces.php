@@ -47,6 +47,12 @@ interface DB {
  */
 
 interface Uri {
+  /** public constructor creates parses initial URI **/
+  public function __construct($uri=null);
+
+  /** Get the fragment part of the uri */
+  public function getFragment();
+
   /** Get the host part of the uri */
   public function getHost();
 
@@ -64,17 +70,6 @@ interface Uri {
 
   /** Get the scheme part of the uri (e.g., `https`) */
   public function getScheme();
-
-  /**
-   * Merge a set of key/value pairs with the existing query string
-   *
-   * @param array $arrayToMerge - an string-indexed array of arbitrary depth that contains
-   * the values to merge.
-   */
-  public function mergeIntoQuery(array $arrayToMerge);
-
-  /** Parse a string into a Uri object */
-  public function parse(string $uri);
 
   /**
    * Remove the matched query arguments
@@ -100,14 +95,8 @@ interface Uri {
    */
   public function removeFromQuery(array $arrayToRemove); 
 
-  /** Set the host part of the uri */
-  public function setHost(string $host);
-
-  /** Set the path part of the uri */
-  public function setPath(string $path);
-
-  /** Set the port part of the uri */
-  public function setPort(int $port);
+  /** Set the fragment part of the uri */
+  public function setFragment(string $frag);
 
   /**
    * Set the query part of the uri
@@ -116,11 +105,16 @@ interface Uri {
    */
   public function setQuery($query);
 
-  /** Set the scheme part of the uri */
-  public function setScheme(string $scheme);
-
   /** Get a string representation of the URI */
   public function toString();
+
+  /**
+   * Merge a set of key/value pairs with the existing query string
+   *
+   * @param array $arrayToMerge - an string-indexed array of arbitrary depth that contains
+   * the values to merge.
+   */
+  public function updateQueryValues(array $arrayToMerge);
 }
 
 
