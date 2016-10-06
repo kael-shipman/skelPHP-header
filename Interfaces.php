@@ -245,9 +245,24 @@ interface Response {
 
 
 
+/** A generic route interface. This is mostly just a static data structure used in type-checking to enforce presence of expected data. */
+interface Route {
+  function __construct(string $name, string $pattern, $handler, string $callback, string $method);
+  function execute($vars);
+  function getName();
+  function match(Request $request);
+}
+
+
+
+
+
 
 /** A generic interface for providing routing functionality */
 interface Router {
+  function addRoute(string $pattern, $handlerObject, string $callback, string $name = null, string $method = null);
+  function getPath($name, $vars);
+
   /**
    * Routes a request to a handler
    *
@@ -255,15 +270,7 @@ interface Router {
    * @return Response $reponse
    */
   function routeRequest(Request $request, App $app);
-
-  /**
-   * Match a route
-   *
-   * @param mixed $template  The template route to match. Can include variables in
-   * the form of '/my-route/{id}'. Also, may be a string, or other arbitrary object
-   * @param Request $request  Optional method parameter
-   */
-  function match($template, Request $request);
+  function getRouteByName(string $name);
 }
 
 
