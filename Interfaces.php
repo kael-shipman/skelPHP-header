@@ -300,8 +300,8 @@ interface Template {
 
 /** A generic, multi-event Observable interface */
 interface Observable {
-  function registerListener(string $event, \object $observer, string $handler);
-  function removeListener(string $event, \object $observer, string $handler);
+  function registerListener(string $event, $observer, string $handler);
+  function removeListener(string $event, $observer, string $handler);
   function notifyListeners(string $event, $data=null);
 }
 
@@ -341,17 +341,16 @@ interface App extends Observable {
   function __construct(DB $db, Router $router);
   function getDb();
   function getResponse();
-  function setDb(DB $db);
   function setRequest(Request $request);
-  function setRouter(Router $router);
   function str(string $key);
 
-  /** Generates a 404 response
+  /** Generates an error response
    *
+   * @param int $code  The error response code
    * @param string $str - an optional string to fit into the template
    * @return Interfaces\Response $response - the Response object, ready to send
    */
-  function generateError($str=null, int $code=404);
+  function getErrorResponse(int $code=404, $str=null);
 
   /**
    * Aborts a request, immediately sending the provided response and exiting
