@@ -2,6 +2,20 @@
 
 namespace Skel\Interfaces;
 
+
+
+
+
+
+interface Authorizer {
+  function requestIsAuthorized(AuthenticatedRequest $r, $action);
+}
+
+
+
+
+
+
 /**
  * A generic database interface
  *
@@ -154,7 +168,7 @@ interface AuthenticatedUser {
    *
    * @return int $role - one of the defined ROLE_* constants
    */
-  function getUserRole();
+  function getUserRoles();
 }
 
 
@@ -184,31 +198,25 @@ interface Request {
   function initialize(array $query = array(), array $request = array(), array $attributes = array(), array $cookies = array(), array $files = array(), array $server = array(), $content = null);
   function isXmlHttpRequest();
   function setMethod($method);
+  function getUri();
+}
 
 
-  //Methods specific to Skel Request interface
+
+
+
+
+
+
+
+interface AuthenticatedRequest extends Request {
   /**
    * Returns an authenticated user object, which may contain an anonymous user
    *
    * @return AuthenticatedUser
    */
   function getAuthenticatedUser();
-
-  /**
-   * Returns a Uri object representing the full Uri of the request
-   *
-   * @return Uri $requestUri
-   */
-  function getUri();
-
-  /**
-   * Sets the Authenticated User
-   *
-   * @param User $user - the authenticated user making the request
-   */
-  function setAuthenticatedUser(User $user);
 }
-
 
 
 
@@ -247,9 +255,9 @@ interface Response {
 
 /** A generic route interface. This is mostly just a static data structure used in type-checking to enforce presence of expected data. */
 interface Route {
-  function __construct(string $name, string $pattern, $handler, string $callback, string $method);
+  function __construct(string $pattern, $handler, string $callback, string $method);
   function execute($vars);
-  function getName();
+  function getPath(array $vars);
   function match(Request $request);
 }
 
@@ -260,7 +268,7 @@ interface Route {
 
 /** A generic interface for providing routing functionality */
 interface Router {
-  function addRoute(string $pattern, $handlerObject, string $callback, string $name = null, string $method = null);
+  function addRoute(Route $route);
   function getPath($name, $vars);
 
   /**
@@ -269,7 +277,7 @@ interface Router {
    * @param Request $request - the request being routed
    * @return Response $reponse
    */
-  function routeRequest(Request $request, App $app);
+  function routeRequest(Request $request);
   function getRouteByName(string $name);
 }
 
@@ -366,6 +374,18 @@ interface App extends Observable {
    * @return void
    */
   function abort(Response $response);
+}
+
+
+
+
+
+
+
+interface AccessControlledApp extends App {
+  function setAuthorizer(Authorizer $authorizer);
+  function requestIsAuthorized($action);
+  function requireAuthorization($action);
 }
 
 
