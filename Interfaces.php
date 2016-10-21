@@ -49,7 +49,7 @@ interface Db {
 
 interface Uri {
   /** public constructor creates parses initial URI **/
-  public function __construct($uri=null);
+  public function __construct(string $uri, Uri $relativeReference=null);
 
   /** Get the fragment part of the uri */
   public function getFragment();
