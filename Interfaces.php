@@ -22,32 +22,23 @@ interface Authorizer {
  * In the case of Skel, this is used to craft a simple data abstraction layer
  * over what is usually an extension of a PDO implementation like SQLite3.
  */
-interface DB {
-  const MODE_SAVE_ON_WRITE = 0;
-  const MODE_CACHE_ON_WRITE = 1;
-
-  /**
-   * Set whether this DB should cache writes or should write immediately
-   *
-   * @param int $mode - one of the interface MODE_* constants
-   */
-  public function setCachingMode(int $mode);
-
-  /** Get the current caching mode */
-  public function getCachingMode();
-
-  /** Flush the write cache (i.e., execute any pending statements) */
-  public function flushWriteCache();
-
-  /**
-   * Set a value
-   *
-   * @param string $table - The name of the table that the value pertains to
-   * @param string $key - the value's key
-   * @param string|int|boolean|serializable $value - the value to write
-   */
+interface Db {
+  public function getContentDir();
   public function setValue(string $table, string $key, $newValue);
+  public function setContentDir(Uri $uri);
 }
+
+
+
+interface CmsDb extends Db {
+}
+
+interface Content {
+}
+
+interface Post extends Content {
+}
+
 
 
 
@@ -155,11 +146,11 @@ interface AuthenticatedUser {
    *
    * Usually this will be username and password, but that's up to the implementor.
    *
-   * @param DB $db - a data source against which to validate
+   * @param Db $db - a data source against which to validate
    * @param array $credentials - an array containing the credentials necessary for authenticated a user
    * @return AthenticatedUser
    */
-  static function createFromCredentials(DB $db, array $credentials);
+  static function createFromCredentials(Db $db, array $credentials);
 
   /**
    * Gets the current user's role
@@ -347,13 +338,13 @@ interface App extends Observable {
    * and Router are the minimum requirements for initiliazing an app. Note that you can swap out
    * both of these at runtime if desired.
    *
-   * @param DB $db  The database to use for this app. This doesn't actually have to be a
+   * @param Db $db  The database to use for this app. This doesn't actually have to be a
    * formal database, but is an abstraction layer that separates any data you might have from
    * your logic. 
    * @param Router $router  The Router object that takes the current request and routes it to
    * your program logic.
    */
-  function __construct(DB $db, Router $router);
+  function __construct(Db $db, Router $router);
   function getDb();
   function getResponse();
   function setRequest(Request $request);
@@ -436,14 +427,16 @@ interface Localizer {
 /** An interface for persisting data */
 interface Persistible {
   /** Write changes to the database */
-  public function persist(DB $db);
+  public function persist();
 
   /** Create object from data in database
    *
-   * @param DB $db - the database from which to draw the data
+   * @param Db $db - the database from which to draw the data
    * @param mixed $query - an arbitrary query that the implementor will use to get data from $db
    */
-  public static function createFromData(DB $db, $query);
+  public static function createFromData($data);
+
+  public function setDatasource(Db $db);
 }
 
 ?>
