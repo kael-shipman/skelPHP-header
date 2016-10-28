@@ -7,6 +7,33 @@ namespace Skel\Interfaces;
 
 
 
+
+interface Config {
+  function checkConfig();
+  function __construct(string $basefile);
+  function get(string $key);
+  function set(string $key, $val);
+  function dump();
+}
+
+interface AppConfig extends Config {
+  function getContextRoot();
+  function getExecutionProfile();
+}
+
+interface DbConfig extends Config {
+  function getDbDsn();
+}
+
+interface UiManagerConfig extends Config {
+  function getUiSrcRoot();
+  function getUiWebRoot();
+}
+
+
+
+
+
 interface Authorizer {
   function requestIsAuthorized(AuthenticatedRequest $r, $action);
 }
@@ -281,6 +308,7 @@ interface Router {
 
 
 interface UiManager {
+  function __construct(UiManagerConfig $config);
 }
 
 
@@ -288,11 +316,6 @@ interface UiManager {
 
 
 
-
-interface Config {
-  function get(string $key);
-  function set(string $key, $val);
-}
 
 
 
