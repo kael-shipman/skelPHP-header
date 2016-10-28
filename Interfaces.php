@@ -26,15 +26,22 @@ interface Db {
   public function getString(string $key);
   public function getStrings();
   public function save(string $objectName, array $data);
-  /**
-   * Set a value
-   *
-   * @param string $table - The name of the table that the value pertains to
-   * @param string $key - the value's key
-   * @param string|int|boolean|serializable $value - the value to write
-   */
+  public function getContentDir();
   public function setValue(string $table, string $key, $newValue);
+  public function setContentDir(Uri $uri);
 }
+
+
+
+interface CmsDb extends Db {
+}
+
+interface Content {
+}
+
+interface Post extends Content {
+}
+
 
 
 
@@ -408,22 +415,5 @@ interface Localizer {
   function getCanonicalPath(Request $r, App $app);
 }
 
-
-
-
-
-
-
-/** An interface for persisting data */
-interface Persistible {
-  /** Write changes to the database */
-  public function persist(Db $db);
-
-  /** Create object from data in database
-   *
-   * @param mixed $data - the dataset from which to create the object
-   */
-  public static function createFromData($data);
-}
 
 ?>
