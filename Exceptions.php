@@ -19,4 +19,6 @@ class DisallowedContentClassException extends InvalidContentException {}
 class NonexistentContentClassException extends InvalidContentException {}
 class NondescendentContentClassException extends InvalidContentException {}
 
+class UnconvertibleContentException extends \RuntimeException {}
+
 ?>

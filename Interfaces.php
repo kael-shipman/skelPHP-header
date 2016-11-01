@@ -16,19 +16,27 @@ interface Config {
   function dump();
 }
 
-interface AppConfig extends Config {
-  function getContextRoot();
-  function getExecutionProfile();
-}
+  interface AppConfig extends Config {
+    function getContextRoot();
+    function getPublicRoot();
+    function getExecutionProfile();
+  }
 
-interface DbConfig extends Config {
-  function getDbDsn();
-}
+  interface DbConfig extends Config {
+    function getDbPdo();
+    function getDbContentRoot();
+  }
 
-interface UiManagerConfig extends Config {
-  function getUiSrcRoot();
-  function getUiWebRoot();
-}
+    interface CmsDbConfig extends DbConfig {
+      function getCmsPdo();
+    }
+
+  interface UiManagerConfig extends Config {
+    function getUiSrcRoot();
+  }
+
+  interface CmsConfig extends Config {
+  }
 
 
 
@@ -52,10 +60,6 @@ interface Authorizer {
 interface Db {
   public function getString(string $key);
   public function getStrings();
-  public function save(string $objectName, array $data);
-  public function getContentDir();
-  public function setValue(string $table, string $key, $newValue);
-  public function setContentDir(Uri $uri);
 }
 
 
@@ -68,6 +72,22 @@ interface Content {
 
 interface Post extends Content {
 }
+
+interface ContentConverter {
+  function toHtml(string $content);
+  function toPlainText(string $content);
+  function toMarkdown(string $content);
+}
+
+
+
+
+
+
+
+interface Cms {
+}
+
 
 
 
