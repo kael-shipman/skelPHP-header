@@ -414,6 +414,18 @@ interface App extends Observable {
 
 
 
+interface UiApp {
+  function getTemplate();
+  function getElements();
+  function getStatusCode();
+  function getHeaders();
+  function getRequest();
+}
+
+
+
+
+
 
 
 interface AccessControlledApp extends App {
