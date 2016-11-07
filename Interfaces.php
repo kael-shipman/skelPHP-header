@@ -82,6 +82,18 @@ interface ContentConverter {
   function toMarkdown(string $content);
 }
 
+interface DataClass {
+  static function createFromUserInput(array $data);
+  static function restoreFromData(array $data);
+  function updateFieldsFromInput(array $data);
+  function set(string $field, $val, bool $setBySystem);
+  function getErrors();
+  function getChanges();
+  function clearChange(string $field);
+  function fieldSetBySystem(string $field);
+  function getFieldsSetBySystem();
+}
+
 
 
 
