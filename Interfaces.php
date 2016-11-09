@@ -12,6 +12,7 @@ interface Config {
   function checkConfig();
   function __construct(string $basefile);
   function get(string $key);
+  function getExecutionProfile();
   function set(string $key, $val);
   function dump();
 }
@@ -19,7 +20,6 @@ interface Config {
   interface AppConfig extends Config {
     function getContextRoot();
     function getPublicRoot();
-    function getExecutionProfile();
   }
 
   interface DbConfig extends Config {
