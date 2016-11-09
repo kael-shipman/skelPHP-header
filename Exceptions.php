@@ -15,8 +15,9 @@ class NonexistentConfigException extends \InvalidArgumentException {}
 class DataValidationException extends \RuntimeException {}
 class InvalidDataException extends \RuntimeException {}
 class InvalidContentException extends InvalidDataException {}
-class UnknownContentClassException extends InvalidContentException {}
-class UnknownContentFieldException extends UnknownContentClassException {}
+class DisallowedContentClassException extends InvalidContentException {}
+class NonexistentContentClassException extends InvalidContentException {}
+class NondescendentContentClassException extends InvalidContentException {}
 
 class UnconvertibleContentException extends \RuntimeException {}
 
