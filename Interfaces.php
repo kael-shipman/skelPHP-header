@@ -70,9 +70,6 @@ interface CmsDb extends Db {
 interface Content {
 }
 
-interface Page extends Content {
-}
-
 interface Post extends Content {
 }
 
