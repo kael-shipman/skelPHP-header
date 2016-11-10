@@ -15,7 +15,7 @@ class NonexistentConfigException extends \InvalidArgumentException {}
 //TODO: delete this in favor of "InvalidDataException"
 class DataValidationException extends \RuntimeException {}
 
-class NonexistentFieldException extends \RuntimeException {}
+class UnknownFieldException extends \RuntimeException {}
 class InvalidDataException extends \RuntimeException {}
 class InvalidContentException extends InvalidDataException {}
 class DisallowedContentClassException extends InvalidContentException {}
