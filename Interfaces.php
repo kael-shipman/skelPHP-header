@@ -81,7 +81,7 @@ interface ContentConverter {
 
 interface DataClass {
   static function createFromUserInput(array $data);
-  static function restoreFromData(array $data);
+  static function restoreFromData(array &$data);
   function updateFieldsFromInput(array $data);
   function set(string $field, $val, bool $setBySystem);
   function getErrors();
