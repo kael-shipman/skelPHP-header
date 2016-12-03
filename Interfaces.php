@@ -450,14 +450,13 @@ interface Localizer {
 interface Component extends \ArrayAccess {
   function getTemplate();
   function render();
-  function setElements(array $elements);
   function setTemplate(Template $t);
 }
 
 interface DefinedComponent extends Component {
-  function addFields(array $fields);
-  function getFields();
-  function removeFields(array $fields);
+  function addDefinedFields(array $fields);
+  function getDefinedFields();
+  function removeDefinedFields(array $fields);
 }
 
 interface Template {
