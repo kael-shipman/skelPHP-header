@@ -82,6 +82,7 @@ interface DataClass {
   static function restoreFromData(array $data);
   function set(string $field, $val, bool $setBySystem);
   function getChanges();
+  function fieldHasChanged(string $field);
   function fieldSetBySystem(string $field);
   function getFieldsSetBySystem();
 }
