@@ -454,10 +454,10 @@ interface Component extends \ArrayAccess {
   function setTemplate(Template $t);
 }
 
-interface ValidatedComponent extends Component {
-  function addValidFields(array $fields);
-  function getValidFields();
-  function removeValidFields(array $fields);
+interface DefinedComponent extends Component {
+  function addFields(array $fields);
+  function getFields();
+  function removeFields(array $fields);
 }
 
 interface Template {
