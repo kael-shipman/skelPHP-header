@@ -27,17 +27,6 @@ interface Config {
     function getDbContentRoot();
   }
 
-    interface CmsDbConfig extends DbConfig {
-      function getCmsPdo();
-    }
-
-  interface UiManagerConfig extends Config {
-    function getUiSrcRoot();
-  }
-
-  interface CmsConfig extends Config {
-  }
-
 
 
 
@@ -62,16 +51,25 @@ interface Db {
   public function getStrings();
 }
 
+  interface AppDb extends Db {
+    function getTemplate(string $name);
+  }
 
 
-interface CmsDb extends Db {
-}
 
 interface Content {
 }
 
-interface Post extends Content {
-}
+  interface Page extends Content {
+  }
+
+    interface Post extends Page {
+    }
+
+
+
+
+
 
 interface ContentConverter {
   function toHtml(string $content);
@@ -81,12 +79,9 @@ interface ContentConverter {
 
 interface DataClass {
   static function createFromUserInput(array $data);
-  static function restoreFromData(array &$data);
-  function updateFieldsFromInput(array $data);
+  static function restoreFromData(array $data);
   function set(string $field, $val, bool $setBySystem);
-  function getErrors();
   function getChanges();
-  function clearChange(string $field);
   function fieldSetBySystem(string $field);
   function getFieldsSetBySystem();
 }
@@ -339,19 +334,6 @@ interface Router {
 
 
 
-interface UiManager {
-  function __construct(UiManagerConfig $config);
-}
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -360,90 +342,67 @@ interface UiManager {
 interface Observable {
   function registerListener(string $event, $observer, string $handler);
   function removeListener(string $event, $observer, string $handler);
-  function notifyListeners(string $event, $data=null);
+  function notifyListeners(string $event, array $data=array());
 }
 
+  interface Context extends Observable {
+    function str(string $key, string $default='');
+  }
+
+    /**
+     * A generic interface for an Application
+     *
+     * This intentionally doesn't have a "register" method for registering new
+     * components. I find these methods eternally confusing, as components can be added
+     * from anywhere by anything, and it's hard to follow the tracks. Instead, I choose
+     * to hard-code (and document) all plugins in the app-specific derivative object. This
+     * provides essentially the same functionality without causing the confusion.
+     *
+     * The minimum functionality that an app should support is receiving, routing and
+     * responding to a request, plus responding to error conditions. Thus, these are the
+     * only methods required by the interface.
+     */
+    interface App extends Context {
+      function getResponse(Request $request=null);
+      function setRequest(Request $request);
+
+      /** Generates an error response
+       *
+       * @param int $code  The error response code
+       * @param string $str - an optional string to fit into the template
+       * @return Interfaces\Response $response - the Response object, ready to send
+       */
+      function getError(int $code=404, string $header=null, string $text=null);
+
+      function getContextRoot();
+      function getPublicRoot();
+      function getRequest();
+      function getTemplate(string $name);
+
+      /**
+       * Aborts a request, immediately sending the provided response and exiting
+       *
+       * @param Response $response - the response to send
+       * @return void
+       */
+      function abort(Response $response);
+    }
+
+      interface AccessControlledApp extends App {
+        function setAuthorizer(Authorizer $authorizer);
+        function requestIsAuthorized($action);
+        function requireAuthorization($action);
+      }
 
 
 
 
 
 
-/**
- * A generic interface for an Application
- *
- * This intentionally doesn't have a "register" method for registering new
- * components. I find these methods eternally confusing, as components can be added
- * from anywhere by anything, and it's hard to follow the tracks. Instead, I choose
- * to hard-code (and document) all plugins in the app-specific derivative object. This
- * provides essentially the same functionality without causing the confusion.
- *
- * The minimum functionality that an app should support is receiving, routing and
- * responding to a request, plus responding to error conditions. Thus, these are the
- * only methods required by the interface.
- */
-interface App extends Observable {
-  /**
-   * Constructor for application
-   *
-   * Since at a minimum the routes (swappable) requests to logic that may use data, a database
-   * and Router are the minimum requirements for initiliazing an app. Note that you can swap out
-   * both of these at runtime if desired.
-   *
-   * @param Db $db  The database to use for this app. This doesn't actually have to be a
-   * formal database, but is an abstraction layer that separates any data you might have from
-   * your logic. 
-   * @param Router $router  The Router object that takes the current request and routes it to
-   * your program logic.
-   */
-  function __construct(Config $config);
-  function getDb();
-  function getResponse();
-  function setRequest(Request $request);
-  function str(string $key);
-
-  /** Generates an error response
-   *
-   * @param int $code  The error response code
-   * @param string $str - an optional string to fit into the template
-   * @return Interfaces\Response $response - the Response object, ready to send
-   */
-  function getErrorResponse(int $code=404, $str=null);
-
-  /**
-   * Aborts a request, immediately sending the provided response and exiting
-   *
-   * @param Response $response - the response to send
-   * @return void
-   */
-  function abort(Response $response);
+interface ErrorHandler {
+  function getErrors(string $field=null);
+  function numErrors(string $field=null);
 }
-
-
-
-
-
-interface UiApp {
-  function getTemplate();
-  function getElements();
-  function getStatusCode();
-  function getHeaders();
-  function getRequest();
-}
-
-
-
-
-
-
-
-interface AccessControlledApp extends App {
-  function setAuthorizer(Authorizer $authorizer);
-  function requestIsAuthorized($action);
-  function requireAuthorization($action);
-}
-
-
 
 
 
@@ -480,6 +439,32 @@ interface Localizer {
   public function setContentPath(Uri $uri);
 
   function getCanonicalPath(Request $r, App $app);
+}
+
+
+
+
+
+
+interface Component extends \ArrayAccess {
+  function getTemplate();
+  function render();
+  function setElements(array $elements);
+  function setTemplate(Template $t);
+}
+
+interface ValidatedComponent extends Component {
+  function addValidFields(array $fields);
+  function getValidFields();
+  function removeValidFields(array $fields);
+}
+
+interface Template {
+  function render(array $elements);
+  static function renderInto(string $template, array $elements, bool $templateIsFileName);
+}
+
+interface ComponentCollection {
 }
 
 
