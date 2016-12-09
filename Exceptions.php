@@ -7,20 +7,22 @@ class UnauthenticatedUserException extends \RuntimeException { }
 class UnauthorizedFunctionAccessException extends \RuntimeException { }
 class UndefinedActionException extends \RuntimeException {}
 class InvalidControllerReturnException extends \RuntimeException {}
+class StopAppException extends \RuntimeException {}
 
 class NonexistentFileException extends \RuntimeException {}
 class IllegalContentUriException extends \RuntimeException {}
 
 class NonexistentConfigException extends \InvalidArgumentException {}
 
-//TODO: delete this in favor of "InvalidDataException"
-class DataValidationException extends \RuntimeException {}
-
 class UnknownFieldException extends \RuntimeException {}
-class InvalidDataException extends \RuntimeException {}
-class InvalidContentException extends InvalidDataException {}
-class NonexistentContentClassException extends InvalidContentException {}
+class InvalidDataFieldException extends \RuntimeException {}
+class InvalidDataObjectException extends InvalidDataFieldException {}
 
 class UnconvertibleContentException extends \RuntimeException {}
+
+class InadequateDatabaseSchemaException extends \RuntimeException {}
+class UnsaveableAssociatedCollectionException extends \RuntimeException {}
+
+class InvalidContentFileException extends \RuntimeException {}
 
 ?>
