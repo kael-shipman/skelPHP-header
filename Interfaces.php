@@ -10,7 +10,6 @@ namespace Skel\Interfaces;
 
 interface Config {
   function checkConfig();
-  function __construct(string $basefile);
   function get(string $key);
   function getExecutionProfile();
   function set(string $key, $val);
@@ -25,6 +24,10 @@ interface Config {
   interface DbConfig extends Config {
     function getDbPdo();
     function getDbContentRoot();
+  }
+
+  interface ContentSyncConfig extends Config {
+    function getContentPagesDir();
   }
 
 
@@ -55,6 +58,13 @@ interface Db {
     function getTemplate(string $name);
   }
 
+  interface ContentSyncDb extends Db {
+    function getContentFileList();
+    function registerFileRename(string $prevPath, string $newPath);
+    function filePathIsUnique(ContentFile $file);
+    function fileContentIdIsUnique(ContentFile $file);
+  }
+
 
 
 interface Content {
@@ -66,7 +76,12 @@ interface Content {
     interface Post extends Page {
     }
 
+interface ContentTag {
+}
 
+
+interface ContentFile {
+}
 
 
 
@@ -78,13 +93,16 @@ interface ContentConverter {
 }
 
 interface DataClass {
-  static function createFromUserInput(array $data);
   static function restoreFromData(array $data);
+  function updateFromUserInput(array $data);
   function set(string $field, $val, bool $setBySystem);
   function getChanges();
   function fieldHasChanged(string $field);
   function fieldSetBySystem(string $field);
   function getFieldsSetBySystem();
+}
+
+interface DataCollection {
 }
 
 
