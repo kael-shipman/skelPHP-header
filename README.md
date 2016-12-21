@@ -16,7 +16,7 @@ Because this is still in very active development, I currently use it via a git s
 
 ```bash
 cd ~/my-website
-git submodule add git@github.com:kael-shipman/skelPHP-header.git app/dev-src/skelPHP/header
+git submodule add git@github.com:kael-shipman/skelphp-header.git app/dev-src/skelphp/header
 ```
 
 This allows me to develop it together with the website I'm building with it. For more on the (somewhat awkward and complex) concept of git submodules, see [this page](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
