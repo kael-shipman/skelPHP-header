@@ -1,7 +1,7 @@
 {
-  "name" : "skel/interfaces",
-  "description" : "The skel interfaces file is meant to provide a lightweight way to satisfy dependencies while allowing programmers to implement only the functionality they need. For example, most skel classes expect an object implementing the Skel\\DB object. By requiring this interfaces file, that interface is defined, and exceptions will be generated at runtime if the programmer has not fully implemented the interface as specified, but he or she doesn't have to add packages to the project that won't be used.",
-  "keywords" : ["header", "interface"],
+  "name" : "skel/header",
+  "description" : "The Skel Header package is the core Skel Framework package. It is simply a set of interfaces that can be used by programmers to guide the creation of a Skel-compatible personal framework. It also contains Exception classes for convenience.",
+  "keywords" : ["header", "interface", "framework"],
   "license" : "GPL3",
   "authors" : [
     {
