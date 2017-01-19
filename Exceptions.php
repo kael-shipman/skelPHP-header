@@ -9,6 +9,8 @@ class UndefinedActionException extends \RuntimeException {}
 class InvalidControllerReturnException extends \RuntimeException {}
 class StopAppException extends \RuntimeException {}
 
+class UnpreparedObjectException extends \RuntimeException {}
+
 class NonexistentFileException extends \RuntimeException {}
 class IllegalContentUriException extends \RuntimeException {}
 
