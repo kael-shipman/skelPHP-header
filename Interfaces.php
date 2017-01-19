@@ -76,6 +76,8 @@ interface Content {
     interface Post extends Page {
     }
 
+
+
 interface ContentTag {
 }
 
@@ -359,12 +361,62 @@ interface Router {
 
 /** A generic, multi-event Observable interface */
 interface Observable {
+  /**
+   * Registers an event listener
+   *
+   * The `$event` parameter can be any arbitrary string. Often, an application developer will call
+   * `notifyListeners` at various points in his or her app. The strings that the developer uses for these
+   * calls will trigger the execution of methods registered to respond to them.
+   *
+   * Note that, while it may be technically easier and in some cases cleaner to use a closure for a listener
+   * instead of an observer/handler pair, using an observer/handler pair will usually result in better code
+   * reuse and more logical design.
+   *
+   * @param string $event - an arbitrary string to listen for
+   * @param object $observer - any object that has the method passed for $handler
+   * @param string $handler - the method that should be called on $observer when $event is triggered
+   *
+   * @return void
+   */
   function registerListener(string $event, $observer, string $handler);
+
+  /**
+   * Removes an event listener from the stack of listeners for a given event
+   *
+   * @param string $event - which event to remove the listener from
+   * @param object $observer - any object that has the method passed for $handler
+   * @param string $handler - the name of the method that would be called on $observer when $event is triggered
+   *
+   * @return void
+   */
   function removeListener(string $event, $observer, string $handler);
+
+  /**
+   * Notifies registered listeners about triggered events
+   *
+   * @param string $event - an arbitrary string that specifies the event that's being triggered
+   * @param array $data - an optional array of data elements to pass as arguments to the observer's event handler method
+   *
+   * @return bool
+   */
   function notifyListeners(string $event, array $data=array());
 }
 
+  /**
+   * An observable object that also provides strings
+   *
+   * A context is the basis for user-facing applications.
+   */
   interface Context extends Observable {
+
+    /**
+     * Gets a string for the given key, returning either a provided default or a blank string
+     *
+     * @param string $key - The string you want to retrieve
+     * @param string $default - An optional default string in case the key hasn't been set
+     *
+     * @return string
+     */
     function str(string $key, string $default='');
   }
 
