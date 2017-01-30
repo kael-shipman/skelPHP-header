@@ -631,7 +631,7 @@ interface DataCollection extends ComponentCollection {
    *
    * @return string $name -- the linking table name
    */
-  public function getLinkTableName() { return $this->linkTableName; }
+  public function getLinkTableName();
 
   /**
    * Get the parent link key. Using the tags example, this would be `pageId`, since `page` is the parent of the `tags`
@@ -641,7 +641,7 @@ interface DataCollection extends ComponentCollection {
    *
    * @return string $key -- the parent linking field
    */
-  public function getParentLinkKey() { return $this->parentLinkKey; }
+  public function getParentLinkKey();
 
   /**
    * Get the child table name. For the tags collection of a page (m2m), for example, this would be `tags`; for the citizens
@@ -649,7 +649,7 @@ interface DataCollection extends ComponentCollection {
    *
    * @return string|null $name -- the child table name or null
    */
-  public function getChildTableName() { return $this->childTableName; }
+  public function getChildTableName();
 
   /**
    * Get the child linking key. For example, for the tags of a page (m2m), `tagId`; for the citizens of a city (m2o), leave
@@ -657,7 +657,7 @@ interface DataCollection extends ComponentCollection {
    *
    * @return string|null $key -- the name of the child link key, if applicable
    */
-  public function getChildLinkKey() { return $this->childLinkKey; }
+  public function getChildLinkKey();
 
   /**
    * Set the linking table name.
