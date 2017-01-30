@@ -504,7 +504,7 @@ interface Cms extends Orm {
    * @param Content $content -- the content object to get tags for
    * @return DataCollection -- a collection of `ContentTag` objects
    */
-  function getContentTags(Interfaces\Content $content);
+  function getContentTags(Content $content);
 
   /**
    * Get the Content object representing the parent of the given Content object
@@ -512,7 +512,7 @@ interface Cms extends Orm {
    * @param Content $content -- the content object to get the parent of
    * @return Content|null -- the parent of the given object or null if root Content
    */
-  function getParentOf(Interfaces\Content $content);
+  function getParentOf(Content $content);
 }
 
 
