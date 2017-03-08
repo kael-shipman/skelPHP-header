@@ -108,6 +108,22 @@ interface Config {
     function getContentPagesDir();
   }
 
+  interface LocalizerConfig extends Config {
+    /**
+     * Returns the default language
+     *
+     * @return string -- a 2-character ISO-639-1 language code
+     */
+    function getDefaultLang();
+
+    /**
+     * Returns an array of available languages
+     *
+     * @return array -- an array of 2-character ISO-639-1 language codes
+     */
+    function getAvailableLangs();
+  }
+
 
 
 
