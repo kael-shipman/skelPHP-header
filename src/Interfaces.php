@@ -428,6 +428,18 @@ interface ComponentCollection {
 
 
 /**
+ * An interface for a language parser to parse simple command languages
+ *
+ * This was intended to be used with templates to parse commands out of the substititons they contain.
+ */
+interface LangParser {
+
+}
+
+
+
+
+/**
  * An interface for a content management system
  *
  * The idea behind this CMS is that it serve as a very basic ORM with some added querying functionality that's specific
