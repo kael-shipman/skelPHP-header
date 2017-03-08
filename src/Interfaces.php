@@ -1541,4 +1541,34 @@ interface Lang {
 
 
 
+interface Factory {
+  function __construct(string $configFile);
+  function getConfig();
+}
+  interface UtilsFactory extends Factory {
+    function newUri(string $uri, Uri $refUri);
+  }
+  interface ComponentFactory extends Factory {
+    function newComponent(array $elements=null, Template $template=null, string $type=null);
+    function newComponentCollection(array $elements=null, Template $template=null, string $type=null);
+    function newTemplate(string $string, string $type=null);
+  }
+  interface DbFactory extends Factory {
+    function getDb();
+    function newDataClass(array $elementsstring $type=null);
+    function newDataCollection(string $type=null);
+  }
+  interface CmsFactory extends Factory {
+    function getCms();
+    function newContent(string $type=null);
+    function newContentTag(string $type=null);
+  }
+  interface RouterFactory extends Factory {
+    function getRouter();
+    function newRoute(string $route, $handler, string $handlerMethod, string $httpMethod='GET', string $name=null);
+  }
+  interface HttpFoundationFactory extends Factory {
+    function newRequest(string $type=null);
+    function newResponse(string $type=null);
+  }
 
