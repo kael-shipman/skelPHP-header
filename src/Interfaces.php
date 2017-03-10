@@ -75,6 +75,16 @@ interface Config {
      * @return string -- A string representing the template directory
      */
     function getTemplateDir();
+
+    /**
+     * Returns the full directory in which user-facing content is to be found.
+     *
+     * This directory will usually have a strings file as well as assets and other human-language
+     * content files.
+     *
+     * @return string -- A string representing the full directory in which user-facing content is stored.
+     */
+    function getContentRoot();
   }
 
   interface DbConfig extends Config {
@@ -96,7 +106,7 @@ interface Config {
      *
      * @return string -- A string representing the full directory in which user-facing content is stored.
      */
-    function getDbContentRoot();
+    function getContentRoot();
   }
 
   interface ContentSyncConfig extends Config {
@@ -276,6 +286,23 @@ interface Component extends \ArrayAccess {
    * @return Component -- should return itself to allow method chaining
    */
   function setTemplate(Template $t);
+
+  /**
+   * Set a context for this component
+   *
+   * A Context gives the component access to a `str` function, and possibly (in the event that the Context is also an App)
+   * a `getRouter` function for creating URLs for links
+   *
+   * @param Context $c
+   * @return Component -- should return itself to allow method chaining
+   */
+  function setContext(Context $c);
+
+  /**
+   * Get the context of this component
+   * @return Context
+   */
+  function getContext();
 }
 
 
@@ -1569,4 +1596,43 @@ interface Lang {
 
 
 
+
+/**
+ * A class that provides construction and creation of arbitrary classes
+ *
+ * This is to be passed to nearly all Skel objects, and should provide a robust dependency injection system
+ * that allows users to optionally override class types for a variety of different contexts
+ */
+interface Factory {
+  /**
+   * Create a new instance of a class using the `new` keyword.
+   *
+   * Note that you can pass extra instantiation variables in after the `$subtype` varible
+   *
+   * @param string $class - a string description of the class you want
+   * @param string|null $subtype - an optional descriptor to further specify which class you want
+   * @return mixed - a new instance of the class you want to instantiate
+   */
+  function new(string $class, string $subtype=null);
+
+  /**
+   * Create a new instance of a class using the class's static `create` method.
+   *
+   * Note that you can pass extra instantiation variables in after the `$subtype` varible
+   *
+   * @param string $class - a string description of the class you want
+   * @param string|null $subtype - an optional descriptor to further specify which class you want
+   * @return mixed - a new instance of the class you want to instantiate
+   */
+  function create(string $class, string $subtype=null);
+
+  /**
+   * Get a string that can be used to instantiate the class indicated by `$class` and `$subtype`
+   *
+   * @param string $class - a string description of the class you want
+   * @param string|null $subtype - an optional descriptor to further specify which class you want
+   * @return string - a string representation of an instantiatable class
+   */
+  function getClass(string $class, string $subtype=null);
+}
 

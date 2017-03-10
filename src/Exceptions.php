@@ -10,9 +10,11 @@ class InvalidControllerReturnException extends \RuntimeException {}
 class StopAppException extends \RuntimeException {}
 
 
-// Exceptions having to do with object states
+// Exceptions having to do with object states and properties
 /** Object hasn't been given adequate properties to function correctly (e.g., no Template set on Component) */
 class UnpreparedObjectException extends \RuntimeException {}
+/** Object's factory method doesn't know how to create the requested class */
+class UnknownClassException extends \RuntimeException {}
 
 
 // Filesystem exceptions
