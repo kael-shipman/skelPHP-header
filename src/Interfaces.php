@@ -863,6 +863,13 @@ interface Content {
   function getParentAddress();
 
   /**
+   * Get the canonicalId of the content's parent, if applicable
+   *
+   * @return string $canonicalId -- the string representation of the parent's canonicalId
+   */
+  function getParentCanonicalId();
+
+  /**
    * Get the "slug" for the object. This is the unique, human-readable url component that serves as the 
    * "pretty ID" for the content
    *
@@ -1462,6 +1469,14 @@ interface Observable {
      * @return string
      */
     function str(string $key, string $default='');
+
+    /**
+     * Gets the context's factory for use in the instatiation of objects. The factory should ideally be
+     * passed in as a required instantiation parameter on the context.
+     *
+     * @return Factory
+     */
+    function getFactory();
   }
 
     /**
@@ -1634,5 +1649,13 @@ interface Factory {
    * @return string - a string representation of an instantiatable class
    */
   function getClass(string $class, string $subtype=null);
+
+  /**
+   * Set a context for the factory
+   *
+   * Since all auxiliary objects are created using the factory, it makes sense for the factory to have
+   * an instance of a Context, which it can pass on to certain of the components that it creates.
+   */
+  function setContext(Context $c);
 }
 
