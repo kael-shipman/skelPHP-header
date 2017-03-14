@@ -303,6 +303,12 @@ interface Component extends \ArrayAccess {
    * @return Context
    */
   function getContext();
+
+  /**
+   * Reduce the component to a simple array
+   * @return array
+   */
+  function exportArray();
 }
 
 
@@ -508,28 +514,6 @@ interface Cms extends Orm {
    * @return Content|null
    */
   function getContentById(int $id);
-
-  /**
-   * Return an array mapping the content class values stored in the db to actual content classes that can be instantiated
-   *
-   * This is a factory method that can be overridden by derivative CMS classes to provide more or different class maps. For
-   * example, the base map translates 'page' to `\Skel\Page` and 'post' to `\Skel\Post`. You can add classes to this or change
-   * mappings by overriding the method like so:
-   *
-   * ```php
-   * public function getContentClasses() {
-   *   return array_merge(
-   *     parent::getContentClasses(),
-   *     array('new-class' => '\Me\NewClass', 'post-alias' => '\Skel\Post', 'page' => '\Me\MyPage')
-   *   );
-   * }
-   * ```
-   *
-   * The only stipulation is that all classes must implement the Skel `Content` interface to be usable by the Cms
-   *
-   * @return array $classMap
-   */
-  function getContentClasses();
 
   /**
    * Get an index of all content that is a descendent of any of the parent addresses provided, or an index of all content if
